@@ -26,8 +26,28 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.SetCookie(w, "role", user.Role)
+	// 🔑 Generate JWT
+	token, err := utils.CreateToken(user.ID.Hex(), user.Role)
+	if err != nil {
+		http.Error(w, "Failed to generate token", http.StatusInternalServerError)
+		return
+	}
 
+	// 🍪 Optionally store JWT in cookie
+	http.SetCookie(w, &http.Cookie{
+		Name:     "auth_token",
+		Value:    token,
+		HttpOnly: true,
+		Secure:   true, // true in production (HTTPS only)
+		Path:     "/",
+		SameSite: http.SameSiteStrictMode,
+	})
+
+	// ✅ Send response
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]string{"message": "Login successful", "role": user.Role})
+	json.NewEncoder(w).Encode(map[string]string{
+		"message": "Login successful",
+		"token":   token, // Optional: send token in body if not using cookie
+	})
 }
+
