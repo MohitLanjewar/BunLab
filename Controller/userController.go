@@ -15,4 +15,8 @@ func Login()
 
 func GetUsers()
 
-func GetUser()
+func GetUser () gin.HandlerFunc{
+	return func(c *gin.Context){
+		userID:= c.Param("user_id")
+	}
+}
