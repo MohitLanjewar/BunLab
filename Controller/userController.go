@@ -3,13 +3,12 @@ package controller
 import (
 	"BunLab/models"
 	"context"
-	"go/token"
 	"net/http"
-	"os/user"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -119,4 +118,3 @@ func GetUser() gin.HandlerFunc {
 		c.JSON(http.StatusOK, user)
 	}
 }
-
