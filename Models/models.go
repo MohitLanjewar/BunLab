@@ -21,8 +21,10 @@ type User struct {
 	RefreshToken *string            `bson:"refresh_token,omitempty"`
 	ProfilePic   string             `bson:"profile_pic,omitempty"`
 	Address      []Address          `bson:"address,omitempty"`
-	CreatedAt    time.Time          `bson:"created_at"`
-	UpdatedAt    time.Time          `bson:"updated_at"`
+	Created_at    time.Time          `bson:"created_at"`
+	User_id       string             `json:"user_id"`
+	User_type    *string            `bson:"user_type" validate:"required, min=2, max= 100"`
+	Updated_at    time.Time          `bson:"updated_at"`
 	IsVerified   bool               `bson:"is_verified"`
 	RoleId       *string            `bson:"roleId"`
 }
